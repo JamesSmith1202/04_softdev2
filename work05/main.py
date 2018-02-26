@@ -35,7 +35,7 @@ else: #for debugging, the db is removed if you run the program after making a db
 
 def print_movies(movies):
     for i in movies:
-        print i
+        print i['title'] + " (" + str(i['year']) + ")"
 
 def print_all():
     print_movies(db.find())
@@ -52,6 +52,12 @@ def get_by_director(director):
 def get_by_year(year):
     return db.find({"year": year})
 
+def get_genre_year(genre, year):
+    return db.find({'genre': genre, 'year': year})
+
+def get_after_year(year):
+    return db.find({ 'year': { '$gt': year }})
+
 print "\nget_by_title('Finding Dory')...\n"
 print_movies(get_by_title("Finding Dory"))
 
@@ -63,5 +69,11 @@ print_movies(get_by_director("Rich Moore"))
 
 print "\nget_by_year(1956)...\n"
 print_movies(get_by_year(1956))
+
+print "\nget_after_year(1990)"
+print_movies(get_after_year(1990))
+
+print "\nget_genre_year('Action-adventure', 1990)...\n"
+print_movies(get_genre_year("Action-adventure", 1990))
 
 connection.close()

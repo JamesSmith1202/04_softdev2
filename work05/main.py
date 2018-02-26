@@ -1,9 +1,12 @@
-#------------PROBLEMS------------#
-#The program is only reading in one entry from the json
-#------------PROBLEMS------------#
+'''
+Wikipedia Movie Data - A database created from scraping american movies from wikipedia
+link: https://raw.githubusercontent.com/prust/wikipedia-movie-data/master/movies.json
 
-
-#http://www.vizgr.org/historical-events/search.php?format=json&begin_date=-3000000&end_date=20151231&lang=en
+Import Mechanism:
+First the mongo server is checked to confirm that the db isn't there, then the locally downloaded json is opened for read permissions
+and passed to json.load to transform it into a python dict. The DB is a big list, so it is iterated through and each entry is added to the db.
+A counter is included just so that the user can see their progress during upload because it is a large database(~18800 movies)
+'''
 
 from pymongo import MongoClient
 from json import load
@@ -30,5 +33,35 @@ else: #for debugging, the db is removed if you run the program after making a db
     connection.drop_database('stan_smith_xus')
 '''
 
+def print_movies(movies):
+    for i in movies:
+        print i
+
+def print_all():
+    print_movies(db.find())
+
+def get_by_title(name):
+    return db.find({"title": name})
+
+def get_by_genre(genre):
+    return db.find({"genre": genre})
+
+def get_by_director(director):
+    return db.find({"director": director})
+
+def get_by_year(year):
+    return db.find({"year": year})
+
+print "\nget_by_title('Finding Dory')...\n"
+print_movies(get_by_title("Finding Dory"))
+
+print "\nget_by_genre('Action-adventure')...\n"
+print_movies(get_by_genre("Action-adventure"))
+
+print "\nget_by_director('Rich Moore')...\n"
+print_movies(get_by_director("Rich Moore"))
+
+print "\nget_by_year(1956)...\n"
+print_movies(get_by_year(1956))
 
 connection.close()

@@ -70,7 +70,7 @@ print_movies(get_by_director("Rich Moore"))
 print "\nget_by_year(1956)...\n"
 print_movies(get_by_year(1956))
 
-print "\nget_after_year(2011)"
+print "\nget_after_year(2011)...\n"
 print_movies(get_after_year(2011))
 
 print "\nget_genre_year('Action-adventure', 2013)...\n"
